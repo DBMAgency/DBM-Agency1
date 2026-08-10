@@ -1,203 +1,175 @@
-/* =========================================
+/* =====================================================
    DIGITAL BOOST MARKETING AGENCY
-   FINAL WEBSITE CONFIGURATION
-========================================= */
+   WEBSITE CONFIGURATION
+   ===================================================== */
 
-const SITE_CONFIG = {
+const DIGITAL_BOOST_CONFIG = {
 
-    /* Business */
+    /* ==============================
+       BUSINESS INFORMATION
+    ============================== */
+
     businessName: "Digital Boost Marketing Agency",
 
     phone: "03252010866",
 
+    whatsappNumber: "923252010866",
+
     email: "contect.digitalboost@gmail.com",
 
-    location: "Pakistan",
+    country: "Pakistan",
 
-    /* Social Media */
+
+    /* ==============================
+       SOCIAL MEDIA
+    ============================== */
+
     facebook:
         "https://www.facebook.com/digitalboostagencyinfo",
 
     instagram:
         "https://www.instagram.com/dig.italboostagency/",
 
-    /* LinkedIn
-       No LinkedIn link was provided.
-       It will remain hidden automatically.
-    */
-    linkedin: "",
 
-    /* WhatsApp */
-    whatsappNumber: "923252010866",
+    /* ==============================
+       WHATSAPP
+    ============================== */
 
     whatsappMessage:
-        "Hello Digital Boost Marketing Agency, I would like to discuss my business and digital marketing requirements.",
+        "Hello Digital Boost Marketing Agency, I would like to discuss your digital marketing services.",
 
-    /* Contact Form */
-    formspree:
-        "https://formspree.io/f/xgawojwd",
 
-    /* Business Information */
-    workingHours:
-        "Monday - Saturday | 9:00 AM - 8:00 PM",
+    /* ==============================
+       WEBSITE
+    ============================== */
 
-    country:
-        "Pakistan",
+    websiteName:
+        "Digital Boost Marketing Agency",
 
-    /* Website */
-    year:
+    tagline:
+        "Digital Marketing That Drives Growth.",
+
+
+    /* ==============================
+       COPYRIGHT
+    ============================== */
+
+    copyrightYear:
         "2026"
 
 };
 
 
-/* =========================================
-   WHATSAPP URL
-========================================= */
 
-SITE_CONFIG.whatsappURL =
+/* =====================================================
+   WHATSAPP LINKS
+===================================================== */
+
+const whatsappURL =
     "https://wa.me/" +
-    SITE_CONFIG.whatsappNumber +
+    DIGITAL_BOOST_CONFIG.whatsappNumber +
     "?text=" +
     encodeURIComponent(
-        SITE_CONFIG.whatsappMessage
+        DIGITAL_BOOST_CONFIG.whatsappMessage
     );
 
 
-/* =========================================
-   AUTO INSERT WEBSITE INFORMATION
-========================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+/* =====================================================
+   APPLY WHATSAPP LINKS
+===================================================== */
+
+document
+    .querySelectorAll("[data-whatsapp]")
+    .forEach(function(element) {
+
+        element.href = whatsappURL;
+
+    });
 
 
-    /* WhatsApp Links */
 
-    document.querySelectorAll(
-        "[data-whatsapp]"
-    ).forEach(function (element) {
+/* =====================================================
+   APPLY FACEBOOK LINK
+===================================================== */
+
+document
+    .querySelectorAll("[data-facebook]")
+    .forEach(function(element) {
 
         element.href =
-            SITE_CONFIG.whatsappURL;
+            DIGITAL_BOOST_CONFIG.facebook;
 
     });
 
 
-    /* WhatsApp Text */
 
-    document.querySelectorAll(
-        "[data-whatsapp-text]"
-    ).forEach(function (element) {
+/* =====================================================
+   APPLY INSTAGRAM LINK
+===================================================== */
 
-        element.textContent =
-            SITE_CONFIG.phone;
+document
+    .querySelectorAll("[data-instagram]")
+    .forEach(function(element) {
+
+        element.href =
+            DIGITAL_BOOST_CONFIG.instagram;
 
     });
 
 
-    /* Email Links */
 
-    document.querySelectorAll(
-        "[data-email]"
-    ).forEach(function (element) {
+/* =====================================================
+   APPLY EMAIL
+===================================================== */
+
+document
+    .querySelectorAll("[data-email]")
+    .forEach(function(element) {
 
         element.href =
             "mailto:" +
-            SITE_CONFIG.email;
+            DIGITAL_BOOST_CONFIG.email;
 
     });
 
 
-    /* Email Text */
 
-    document.querySelectorAll(
-        "[data-email-text]"
-    ).forEach(function (element) {
+document
+    .querySelectorAll("[data-email-text]")
+    .forEach(function(element) {
 
         element.textContent =
-            SITE_CONFIG.email;
+            DIGITAL_BOOST_CONFIG.email;
 
     });
 
 
-    /* Facebook */
 
-    document.querySelectorAll(
-        "[data-facebook]"
-    ).forEach(function (element) {
+/* =====================================================
+   APPLY WHATSAPP NUMBER TEXT
+===================================================== */
 
-        element.href =
-            SITE_CONFIG.facebook;
-
-    });
-
-
-    /* Instagram */
-
-    document.querySelectorAll(
-        "[data-instagram]"
-    ).forEach(function (element) {
-
-        element.href =
-            SITE_CONFIG.instagram;
-
-    });
-
-
-    /* LinkedIn */
-
-    document.querySelectorAll(
-        "[data-linkedin]"
-    ).forEach(function (element) {
-
-        if (SITE_CONFIG.linkedin) {
-
-            element.href =
-                SITE_CONFIG.linkedin;
-
-        } else {
-
-            element.style.display =
-                "none";
-
-        }
-
-    });
-
-
-    /* Contact Form */
-
-    document.querySelectorAll(
-        "[data-contact-form]"
-    ).forEach(function (form) {
-
-        form.action =
-            SITE_CONFIG.formspree;
-
-    });
-
-
-    /* Business Name */
-
-    document.querySelectorAll(
-        "[data-business-name]"
-    ).forEach(function (element) {
+document
+    .querySelectorAll("[data-whatsapp-text]")
+    .forEach(function(element) {
 
         element.textContent =
-            SITE_CONFIG.businessName;
+            DIGITAL_BOOST_CONFIG.phone;
 
     });
 
 
-    /* Current Year */
 
-    document.querySelectorAll(
-        "[data-year]"
-    ).forEach(function (element) {
+/* =====================================================
+   COPYRIGHT YEAR
+===================================================== */
+
+document
+    .querySelectorAll("[data-year]")
+    .forEach(function(element) {
 
         element.textContent =
-            SITE_CONFIG.year;
+            DIGITAL_BOOST_CONFIG.copyrightYear;
 
     });
-
-});
