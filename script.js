@@ -1,36 +1,50 @@
-/* =========================================================
+/* =====================================================
    DIGITAL BOOST MARKETING AGENCY
-   FINAL WEBSITE JAVASCRIPT
-   ========================================================= */
+   MAIN JAVASCRIPT
+   ===================================================== */
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
 
-    const menuBtn = document.querySelector(".menu-btn");
+    /* =================================================
+       MOBILE NAVIGATION
+    ================================================= */
+
+    const menuButton = document.querySelector(".menu-btn");
     const navbar = document.querySelector(".navbar");
 
-    if (menuBtn && navbar) {
+    if (menuButton && navbar) {
 
-        menuBtn.addEventListener("click", function () {
+        menuButton.addEventListener("click", function () {
 
-            navbar.classList.toggle("show");
+            navbar.classList.toggle("mobile-active");
 
-            const icon = menuBtn.querySelector("i");
+            const icon =
+                menuButton.querySelector("i");
 
             if (icon) {
 
-                if (navbar.classList.contains("show")) {
+                if (
+                    navbar.classList.contains("mobile-active")
+                ) {
 
-                    icon.classList.remove("fa-bars");
-                    icon.classList.add("fa-xmark");
+                    icon.classList.remove(
+                        "fa-bars"
+                    );
+
+                    icon.classList.add(
+                        "fa-xmark"
+                    );
 
                 } else {
 
-                    icon.classList.remove("fa-xmark");
-                    icon.classList.add("fa-bars");
+                    icon.classList.remove(
+                        "fa-xmark"
+                    );
+
+                    icon.classList.add(
+                        "fa-bars"
+                    );
 
                 }
 
@@ -39,393 +53,251 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
-        /* Close menu after clicking a link */
+        /* Close mobile menu after clicking link */
 
-        navbar.querySelectorAll("a").forEach(function (link) {
+        navbar
+            .querySelectorAll("a")
+            .forEach(function (link) {
 
-            link.addEventListener("click", function () {
+                link.addEventListener(
+                    "click",
+                    function () {
 
-                navbar.classList.remove("show");
+                        navbar.classList.remove(
+                            "mobile-active"
+                        );
 
-                const icon = menuBtn.querySelector("i");
+                        const icon =
+                            menuButton.querySelector("i");
 
-                if (icon) {
+                        if (icon) {
 
-                    icon.classList.remove("fa-xmark");
-                    icon.classList.add("fa-bars");
+                            icon.classList.remove(
+                                "fa-xmark"
+                            );
 
-                }
+                            icon.classList.add(
+                                "fa-bars"
+                            );
+
+                        }
+
+                    }
+                );
 
             });
 
-        });
-
     }
 
 
 
-    /* =====================================================
-       CLOSE MOBILE MENU WHEN CLICKING OUTSIDE
-    ===================================================== */
-
-    document.addEventListener("click", function (event) {
-
-        if (!navbar || !menuBtn) {
-            return;
-        }
-
-        if (
-            navbar.classList.contains("show") &&
-            !navbar.contains(event.target) &&
-            !menuBtn.contains(event.target)
-        ) {
-
-            navbar.classList.remove("show");
-
-            const icon = menuBtn.querySelector("i");
-
-            if (icon) {
-
-                icon.classList.remove("fa-xmark");
-                icon.classList.add("fa-bars");
-
-            }
-
-        }
-
-    });
-
-
-
-    /* =====================================================
+    /* =================================================
        CONTACT FORM
-    ===================================================== */
+    ================================================= */
 
-    const forms = document.querySelectorAll("[data-contact-form]");
-
-    forms.forEach(function (form) {
-
-        form.addEventListener("submit", async function (event) {
-
-            event.preventDefault();
+    const contactForm =
+        document.querySelector(
+            "[data-contact-form]"
+        );
 
 
-            /* Remove old messages */
+    if (contactForm) {
 
-            const oldSuccess =
-                form.querySelector(".form-success");
+        contactForm.addEventListener(
+            "submit",
+            function (event) {
 
-            const oldError =
-                form.querySelector(".form-error");
+                const name =
+                    document
+                        .getElementById("name");
 
-            if (oldSuccess) {
-                oldSuccess.remove();
-            }
+                const email =
+                    document
+                        .getElementById("email");
 
-            if (oldError) {
-                oldError.remove();
-            }
+                const whatsapp =
+                    document
+                        .getElementById("whatsapp");
 
+                const service =
+                    document
+                        .getElementById("service");
 
-            /* Submit button */
-
-            const submitButton =
-                form.querySelector(".form-submit");
-
-
-            if (!submitButton) {
-                return;
-            }
-
-
-            const originalButtonHTML =
-                submitButton.innerHTML;
+                const message =
+                    document
+                        .getElementById("message");
 
 
-            /* Validate */
+                /* -----------------------------------------
+                   Basic Validation
+                ----------------------------------------- */
 
-            if (!form.checkValidity()) {
+                if (
+                    !name ||
+                    !email ||
+                    !whatsapp ||
+                    !service ||
+                    !message
+                ) {
 
-                form.reportValidity();
+                    return;
 
-                return;
-
-            }
-
-
-            /* Loading */
-
-            submitButton.disabled = true;
-
-            submitButton.innerHTML =
-                '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
-
-
-
-            try {
-
-                /* Get Formspree URL */
-
-                let formAction =
-                    form.getAttribute("action");
+                }
 
 
                 if (
-                    !formAction &&
-                    typeof DIGITAL_BOOST_CONFIG !== "undefined"
+                    name.value.trim().length < 2
                 ) {
 
-                    formAction =
-                        DIGITAL_BOOST_CONFIG.formspree;
+                    event.preventDefault();
+
+                    alert(
+                        "Please enter your full name."
+                    );
+
+                    name.focus();
+
+                    return;
 
                 }
 
 
-                /* Safety check */
+                if (
+                    !email.value.includes("@") ||
+                    !email.value.includes(".")
+                ) {
 
-                if (!formAction) {
+                    event.preventDefault();
 
-                    throw new Error(
-                        "Form submission URL is missing."
+                    alert(
+                        "Please enter a valid email address."
                     );
+
+                    email.focus();
+
+                    return;
 
                 }
 
 
-                /* Collect form data */
+                if (
+                    whatsapp.value.trim().length < 7
+                ) {
 
-                const formData =
-                    new FormData(form);
+                    event.preventDefault();
+
+                    alert(
+                        "Please enter a valid WhatsApp number."
+                    );
+
+                    whatsapp.focus();
+
+                    return;
+
+                }
 
 
-                /* Send to Formspree */
+                if (
+                    service.value === ""
+                ) {
 
-                const response =
-                    await fetch(
-                        formAction,
-                        {
-                            method: "POST",
-                            body: formData,
-                            headers: {
-                                "Accept":
-                                    "application/json"
-                            }
-                        }
+                    event.preventDefault();
+
+                    alert(
+                        "Please select the service you need."
+                    );
+
+                    service.focus();
+
+                    return;
+
+                }
+
+
+                if (
+                    message.value.trim().length < 10
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please tell us a little more about your project."
+                    );
+
+                    message.focus();
+
+                    return;
+
+                }
+
+
+                /* -----------------------------------------
+                   Submit Button
+                ----------------------------------------- */
+
+                const submitButton =
+                    contactForm.querySelector(
+                        'button[type="submit"]'
                     );
 
 
-                const result =
-                    await response.json().catch(
-                        function () {
-                            return {};
-                        }
-                    );
+                if (submitButton) {
 
-
-                /* Successful submission */
-
-                if (response.ok) {
-
-                    const successMessage =
-                        document.createElement("div");
-
-                    successMessage.className =
-                        "form-success";
-
-                    successMessage.innerHTML =
-                        '<i class="fa-solid fa-circle-check"></i> ' +
-                        'Thank you! Your enquiry has been sent successfully. ' +
-                        'Our team will contact you soon.';
-
-
-                    form.prepend(successMessage);
-
-
-                    /* Reset form */
-
-                    form.reset();
-
-
-                    /* Scroll to message */
-
-                    successMessage.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center"
-                    });
-
-
-                    /* Restore button */
-
-                    submitButton.disabled = false;
+                    submitButton.disabled = true;
 
                     submitButton.innerHTML =
-                        originalButtonHTML;
-
-
-                    /* Remove success message later */
-
-                    setTimeout(function () {
-
-                        if (
-                            successMessage &&
-                            successMessage.parentNode
-                        ) {
-
-                            successMessage.remove();
-
-                        }
-
-                    }, 8000);
-
-
-                } else {
-
-                    let errorText =
-                        "Sorry, your message could not be sent. Please try again.";
-
-                    if (
-                        result &&
-                        result.errors &&
-                        result.errors.length
-                    ) {
-
-                        errorText =
-                            result.errors
-                                .map(function (error) {
-                                    return error.message;
-                                })
-                                .join(" ");
-
-                    }
-
-
-                    showFormError(
-                        form,
-                        errorText
-                    );
-
-
-                    submitButton.disabled = false;
-
-                    submitButton.innerHTML =
-                        originalButtonHTML;
+                        '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
                 }
-
-
-            } catch (error) {
-
-                console.error(
-                    "Form submission error:",
-                    error
-                );
-
-
-                showFormError(
-                    form,
-                    "Something went wrong. Please try again or contact us directly on WhatsApp."
-                );
-
-
-                submitButton.disabled = false;
-
-                submitButton.innerHTML =
-                    originalButtonHTML;
 
             }
-
-        });
-
-    });
-
-
-
-    /* =====================================================
-       FORM ERROR FUNCTION
-    ===================================================== */
-
-    function showFormError(form, message) {
-
-        const errorMessage =
-            document.createElement("div");
-
-        errorMessage.className =
-            "form-error";
-
-        errorMessage.innerHTML =
-            '<i class="fa-solid fa-circle-exclamation"></i> ' +
-            message;
-
-
-        form.prepend(errorMessage);
-
-
-        errorMessage.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
+        );
 
     }
 
 
 
-    /* =====================================================
-       SMOOTH INTERNAL LINKS
-    ===================================================== */
+    /* =================================================
+       SMOOTH SCROLLING
+    ================================================= */
 
     document
         .querySelectorAll('a[href^="#"]')
         .forEach(function (link) {
 
-            link.addEventListener("click", function (event) {
+            link.addEventListener(
+                "click",
+                function (event) {
 
-                const targetID =
-                    this.getAttribute("href");
+                    const targetID =
+                        link.getAttribute("href");
 
+                    if (
+                        !targetID ||
+                        targetID === "#"
+                    ) {
 
-                if (
-                    !targetID ||
-                    targetID === "#"
-                ) {
-                    return;
-                }
+                        return;
 
-
-                const target =
-                    document.querySelector(targetID);
-
-
-                if (target) {
-
-                    event.preventDefault();
+                    }
 
 
-                    target.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
-                }
-
-            });
-
-        });
+                    const target =
+                        document.querySelector(
+                            targetID
+                        );
 
 
+                    if (target) {
 
-    /* =====================================================
-       IMAGE ERROR HANDLING
-    ===================================================== */
+                        event.preventDefault();
 
-    document
-        .querySelectorAll("img")
-        .forEach(function (image) {
+                        target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
 
-            image.addEventListener(
-                "error",
-                function () {
-
-                    this.style.display = "none";
+                    }
 
                 }
             );
@@ -434,35 +306,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    /* =====================================================
+    /* =================================================
+       CURRENT YEAR
+    ================================================= */
+
+    const yearElements =
+        document.querySelectorAll(
+            "[data-year]"
+        );
+
+
+    yearElements.forEach(
+        function (element) {
+
+            element.textContent =
+                new Date().getFullYear();
+
+        }
+    );
+
+
+
+    /* =================================================
        ACTIVE NAVIGATION
-    ===================================================== */
+    ================================================= */
 
     const currentPage =
         window.location.pathname
             .split("/")
-            .pop()
-            .toLowerCase();
+            .pop();
 
 
-    document
-        .querySelectorAll(".navbar a")
-        .forEach(function (link) {
-
-            const href =
-                link.getAttribute("href");
+    const navLinks =
+        document.querySelectorAll(
+            ".navbar a"
+        );
 
 
-            if (!href) {
-                return;
-            }
-
+    navLinks.forEach(
+        function (link) {
 
             const linkPage =
-                href.split("#")[0]
-                   .split("/")
-                   .pop()
-                   .toLowerCase();
+                link
+                    .getAttribute("href")
+                    ?.split("/")
+                    .pop();
 
 
             if (
@@ -470,37 +358,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 linkPage !== ""
             ) {
 
-                link.classList.add("active");
+                link.classList.add(
+                    "active"
+                );
 
             }
 
-        });
+        }
+    );
 
 
 
-    /* =====================================================
+    /* =================================================
        ESC KEY CLOSE MOBILE MENU
-    ===================================================== */
+    ================================================= */
 
     document.addEventListener(
         "keydown",
         function (event) {
 
-            if (event.key === "Escape") {
+            if (
+                event.key === "Escape" &&
+                navbar
+            ) {
 
-                if (
-                    navbar &&
-                    navbar.classList.contains("show")
-                ) {
+                navbar.classList.remove(
+                    "mobile-active"
+                );
 
-                    navbar.classList.remove("show");
 
+                if (menuButton) {
 
                     const icon =
-                        menuBtn
-                            ? menuBtn.querySelector("i")
-                            : null;
-
+                        menuButton.querySelector(
+                            "i"
+                        );
 
                     if (icon) {
 
@@ -519,6 +411,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
         }
+    );
+
+
+
+    /* =================================================
+       ADD LOADED CLASS
+    ================================================= */
+
+    document.body.classList.add(
+        "page-loaded"
     );
 
 
